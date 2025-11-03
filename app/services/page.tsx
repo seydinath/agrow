@@ -6,6 +6,8 @@ import Link from "next/link"
 import { BookOpen, Users, Sprout, TrendingUp, Droplets, Sun, Leaf, ArrowRight } from "@/components/icons"
 import { useEffect } from "react"
 
+import { PageContainer } from "@/components/ui/page-container"
+
 export default function ServicesPage() {
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -102,8 +104,7 @@ export default function ServicesPage() {
   ]
 
   return (
-    <div className="pt-32 pb-20">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <PageContainer>
         {/* Hero */}
         <div className="max-w-4xl mx-auto text-center mb-20 fade-in-element">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6">
@@ -194,7 +195,6 @@ export default function ServicesPage() {
             </Button>
           </CardContent>
         </Card>
-      </div>
-    </div>
+      </PageContainer>
   )
 }

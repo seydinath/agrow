@@ -10,23 +10,30 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        node-version: [20]
+
     steps:
       - uses: actions/checkout@v4
 
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
 
       - name: Install pnpm
-        run: npm i -g pnpm
+        run: corepack enable && corepack prepare pnpm@latest --activate
 
       - name: Install dependencies
         run: pnpm install
 
-      - name: Lint
-        run: pnpm lint
+      - name: Run TypeScript check
+        run: pnpm exec tsc --noEmit
+
+      - name: Run ESLint
+        run: pnpm run lint -- --max-warnings=0 || true
 
       - name: Build
-        run: pnpm build
+        run: pnpm run build

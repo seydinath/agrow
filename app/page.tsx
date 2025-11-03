@@ -7,6 +7,8 @@ import Link from "next/link"
 import { ArrowRight, Sprout, Users, TrendingUp, Leaf, Droplets, Sun } from "@/components/icons"
 import { useEffect, useRef } from "react"
 
+import { PageContainer } from "@/components/ui/page-container"
+
 export default function HomePage() {
   const heroRef = useRef<HTMLDivElement>(null)
 
@@ -29,7 +31,7 @@ export default function HomePage() {
   }, [])
 
   return (
-    <div className="relative">
+    <PageContainer withPadding={false} className="relative">
       {/* Hero Section */}
       <section ref={heroRef} className="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
         <div className="absolute inset-0">
@@ -235,6 +237,6 @@ export default function HomePage() {
           </Card>
         </div>
       </section>
-    </div>
+    </PageContainer>
   )
 }
