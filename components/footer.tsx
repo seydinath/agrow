@@ -88,11 +88,11 @@ export function Footer() {
                   <Mail className="h-5 w-5 text-primary shrink-0" />
                 </div>
                 <a
-                  href="mailto:agrowomanecology@gmail.com"
+                  href="mailto:agrowoman@agrowomanecology.com"
                   className="hover:text-primary transition-colors duration-300"
                   aria-label="Envoyer un email à la direction"
                 >
-                  agrowomanecology@gmail.com
+                  agrowoman@agrowomanecology.com
                 </a>
               </li>
             </ul>

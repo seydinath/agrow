@@ -21,7 +21,7 @@ export default function ContactPage() {
   })
   const [isSending, setIsSending] = useState(false)
   const { toast } = useToast()
-  const displayEmail = process.env.NEXT_PUBLIC_CONTACT_TO || "agrowomanecology@gmail.com"
+  const displayEmail = process.env.NEXT_PUBLIC_CONTACT_TO || "agrowoman@agrowomanecology.com"
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -61,7 +61,7 @@ export default function ContactPage() {
       const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
       const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
       const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
-      const toEmail = process.env.NEXT_PUBLIC_CONTACT_TO
+      const recipientEmail = process.env.NEXT_PUBLIC_CONTACT_TO || 'agrowoman@agrowomanecology.com'
       const missing = missingVars()
       if (!serviceId || !templateId || !publicKey) {
         throw new Error(
@@ -77,8 +77,8 @@ export default function ContactPage() {
         message: formData.message,
         to_name: "Equipe AgroWomanEcology",
         site_origin: typeof window !== "undefined" ? window.location.origin : "",
+        to_email: recipientEmail,
       }
-      if (toEmail) params.to_email = toEmail
 
       await emailjs.send(serviceId, templateId, params, { publicKey })
 
