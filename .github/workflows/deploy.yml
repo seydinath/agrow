@@ -1,0 +1,27 @@
+name: Deploy (Vercel Hook)
+
+on:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    if: ${{ github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.head_branch == 'main' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Vercel Deploy Hook
+        env:
+          VERCEL_DEPLOY_HOOK_URL: ${{ secrets.VERCEL_DEPLOY_HOOK_URL }}
+        run: |
+          if [ -z "$VERCEL_DEPLOY_HOOK_URL" ]; then
+            echo "Missing VERCEL_DEPLOY_HOOK_URL GitHub secret"; exit 1;
+          fi
+          echo "Triggering Vercel deploy via hook..."
+          curl -s -X POST "$VERCEL_DEPLOY_HOOK_URL" -o /dev/null -w "%{http_code}\n" | tee response_code.txt
+          CODE=$(cat response_code.txt)
+          if [ "$CODE" -lt 200 ] || [ "$CODE" -ge 300 ]; then
+            echo "Deploy hook responded with non-2xx: $CODE"; exit 1;
+          fi
+          echo "Deploy hook triggered successfully."
