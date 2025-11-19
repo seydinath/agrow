@@ -3,19 +3,58 @@
 import dynamic from "next/dynamic"
 import type * as React from "react"
 
-// Dynamically load heavy chart container; disable SSR if it relies on window.
-const ChartModule = dynamic(() => import("@/components/ui/chart"), {
-  ssr: false,
-  loading: () => <div className="text-sm text-muted-foreground">Chargement du graphique…</div>,
-})
+// Dynamically load heavy chart pieces; disable SSR if they rely on window.
+const loading = () => (
+  <div className="text-sm text-muted-foreground">Chargement du graphique…</div>
+)
 
-// Re-export pieces that callers might use.
-export const LazyChartContainer = ChartModule.ChartContainer
-export const LazyChartTooltip = ChartModule.ChartTooltip
-export const LazyChartTooltipContent = ChartModule.ChartTooltipContent
-export const LazyChartLegend = ChartModule.ChartLegend
-export const LazyChartLegendContent = ChartModule.ChartLegendContent
-export const LazyChartStyle = ChartModule.ChartStyle
+export const LazyChartContainer = dynamic(
+  () =>
+    import("@/components/ui/chart").then((m) => ({
+      default: m.ChartContainer as unknown as React.ComponentType<any>,
+    })),
+  { ssr: false, loading },
+)
+
+export const LazyChartTooltip = dynamic(
+  () =>
+    import("@/components/ui/chart").then((m) => ({
+      default: m.ChartTooltip as unknown as React.ComponentType<any>,
+    })),
+  { ssr: false, loading },
+)
+
+export const LazyChartTooltipContent = dynamic(
+  () =>
+    import("@/components/ui/chart").then((m) => ({
+      default: m.ChartTooltipContent as unknown as React.ComponentType<any>,
+    })),
+  { ssr: false, loading },
+)
+
+export const LazyChartLegend = dynamic(
+  () =>
+    import("@/components/ui/chart").then((m) => ({
+      default: m.ChartLegend as unknown as React.ComponentType<any>,
+    })),
+  { ssr: false, loading },
+)
+
+export const LazyChartLegendContent = dynamic(
+  () =>
+    import("@/components/ui/chart").then((m) => ({
+      default: m.ChartLegendContent as unknown as React.ComponentType<any>,
+    })),
+  { ssr: false, loading },
+)
+
+export const LazyChartStyle = dynamic(
+  () =>
+    import("@/components/ui/chart").then((m) => ({
+      default: m.ChartStyle as unknown as React.ComponentType<any>,
+    })),
+  { ssr: false, loading },
+)
 
 // Convenience wrapper component
 export function LazyChart({ children }: { children: React.ReactNode }) {

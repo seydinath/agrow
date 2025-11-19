@@ -7,7 +7,6 @@
   },
   "private": true,
   "scripts": {
-    "prepare": "corepack enable",
     "build": "next build",
     "dev": "next dev",
     "lint": "eslint .",
