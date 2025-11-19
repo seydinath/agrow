@@ -48,22 +48,25 @@ export default function ContactPage() {
     }
     setIsSending(true)
     try {
-      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || process.env.EMAILJS_SERVICE_ID
-      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || process.env.EMAILJS_TEMPLATE_ID
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
       const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+      const toEmail = process.env.NEXT_PUBLIC_CONTACT_TO
 
       if (!serviceId || !templateId || !publicKey) {
         throw new Error("EmailJS configuration manquante. Vérifiez votre .env.local")
       }
 
-      const params = {
+      const params: Record<string, any> = {
         from_name: formData.name,
         from_email: formData.email,
+        reply_to: formData.email,
         phone: formData.phone || "N/A",
         message: formData.message,
         to_name: "Equipe AgroWomanEcology",
         site_origin: typeof window !== "undefined" ? window.location.origin : "",
       }
+      if (toEmail) params.to_email = toEmail
 
       await emailjs.send(serviceId, templateId, params, { publicKey })
 

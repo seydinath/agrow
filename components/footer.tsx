@@ -87,7 +87,13 @@ export function Footer() {
                 <div className="p-2 bg-primary/10 rounded-lg group-hover:scale-110 transition-transform duration-300">
                   <Mail className="h-5 w-5 text-primary shrink-0" />
                 </div>
-                <span>contact@agrowomanecology.sn</span>
+                <a
+                  href="mailto:agrowomanecology@gmail.com"
+                  className="hover:text-primary transition-colors duration-300"
+                  aria-label="Envoyer un email à la direction"
+                >
+                  agrowomanecology@gmail.com
+                </a>
               </li>
             </ul>
           </div>
