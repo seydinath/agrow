@@ -21,6 +21,7 @@ export default function ContactPage() {
   })
   const [isSending, setIsSending] = useState(false)
   const { toast } = useToast()
+  const displayEmail = process.env.NEXT_PUBLIC_CONTACT_TO || "agrowomanecology@gmail.com"
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -147,7 +148,7 @@ export default function ContactPage() {
               {
                 icon: Mail,
                 title: "Email",
-                content: "contact@agrowomanecology.sn",
+                content: displayEmail,
                 color: "text-primary",
               },
               {
@@ -168,7 +169,18 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-foreground mb-1">{item.title}</h3>
-                    <p className="text-sm text-muted-foreground">{item.content}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {item.title === "Email" ? (
+                        <a
+                          href={`mailto:${displayEmail}`}
+                          className="text-primary underline-offset-4 hover:underline"
+                        >
+                          {item.content}
+                        </a>
+                      ) : (
+                        item.content
+                      )}
+                    </p>
                   </div>
                 </CardContent>
               </Card>
