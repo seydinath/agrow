@@ -40,6 +40,15 @@ export default function ContactPage() {
     return () => observer.disconnect()
   }, [])
 
+  const missingVars = () => {
+    const vars: { key: string; value?: string }[] = [
+      { key: 'NEXT_PUBLIC_EMAILJS_SERVICE_ID', value: process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID },
+      { key: 'NEXT_PUBLIC_EMAILJS_TEMPLATE_ID', value: process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID },
+      { key: 'NEXT_PUBLIC_EMAILJS_PUBLIC_KEY', value: process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY },
+    ]
+    return vars.filter(v => !v.value).map(v => v.key)
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!formData.name || !formData.email || !formData.message) {
@@ -52,9 +61,11 @@ export default function ContactPage() {
       const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID
       const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
       const toEmail = process.env.NEXT_PUBLIC_CONTACT_TO
-
+      const missing = missingVars()
       if (!serviceId || !templateId || !publicKey) {
-        throw new Error("EmailJS configuration manquante. Vérifiez votre .env.local")
+        throw new Error(
+          `EmailJS configuration manquante (${missing.join(', ') || 'inconnue'}). Vérifiez votre .env.local et Vercel env.`,
+        )
       }
 
       const params: Record<string, any> = {
@@ -96,6 +107,12 @@ export default function ContactPage() {
 
   return (
     <PageContainer>
+        {/* Banner config manquante */}
+        {missingVars().length > 0 && (
+          <div className="mb-6 rounded-md border border-destructive/40 bg-destructive/10 p-4 text-sm text-destructive">
+            EmailJS non configuré : {missingVars().join(', ')} manquant(s). Ajoutez-les dans votre fichier <code>.env.local</code> ou variables Vercel.
+          </div>
+        )}
         {/* Hero */}
         <div className="max-w-4xl mx-auto text-center mb-16 sm:mb-20 fade-in-element">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6">
