@@ -1,11 +1,13 @@
 {
   "name": "my-v0-project",
   "version": "0.1.0",
+  "packageManager": "pnpm@10.14.0",
   "engines": {
-    "node": ">=20 <=22"
+    "node": "20.x"
   },
   "private": true,
   "scripts": {
+    "prepare": "corepack enable",
     "build": "next build",
     "dev": "next dev",
     "lint": "eslint .",
