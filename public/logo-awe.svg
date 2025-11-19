@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160" viewBox="0 0 160 160" role="img" aria-label="AgroWomanEcology logo">
+  <rect width="160" height="160" fill="none" />
+  <!-- Yellow sun/circle -->
+  <circle cx="104" cy="64" r="34" fill="#F9C933" />
+  <!-- Leaves (stylized) -->
+  <path d="M88 45c4 16 18 30 28 32-6-12-15-26-28-32Z" fill="#066B37" />
+  <path d="M120 45c-4 16-18 30-28 32 6-12 15-26 28-32Z" fill="#066B37" />
+  <!-- Stem -->
+  <path d="M104 54c-12 10-18 30-18 52h6c0-18 6-38 12-48 6 10 12 30 12 48h6c0-22-6-42-18-52Z" fill="#066B37" />
+  <!-- Text Agro ecology -->
+  <text x="20" y="110" font-family="'Playfair Display','Georgia',serif" font-size="50" fill="#065B2F">Agro</text>
+  <text x="20" y="145" font-family="'Playfair Display','Georgia',serif" font-size="50" fill="#065B2F">ecology</text>
+  <!-- WOMAN highlight -->
+  <text x="78" y="126" font-family="'Inter','Arial',sans-serif" font-size="26" font-weight="700" fill="#F9C933">WOMAN</text>
+</svg>

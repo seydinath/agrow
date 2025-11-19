@@ -1,20 +1,18 @@
 import Link from "next/link"
-import { Leaf, Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from "@/components/icons"
+import { Mail, Phone, MapPin, Facebook, Twitter, Instagram, Linkedin } from "@/components/icons"
+import { Logo } from "@/components/logo"
 
 export function Footer() {
   return (
-    <footer className="relative bg-gradient-to-br from-card via-muted/30 to-card border-t border-border">
+    <footer className="relative bg-linear-to-br from-card via-muted/30 to-card border-t border-border">
   <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
           <div className="space-y-4">
-            <div className="flex items-center gap-2 group">
-              <div className="p-2 bg-primary/10 rounded-xl group-hover:scale-110 transition-transform duration-300">
-                <Leaf className="h-8 w-8 text-primary" />
-              </div>
-              <span className="text-xl font-serif font-bold text-foreground">AgroWomanEcology</span>
+            <div className="flex items-center gap-3 group transition-transform duration-300 hover:scale-[1.02]">
+              <Logo asLink={false} size={56} className="rounded-md shadow-sm" />
             </div>
-            <p className="text-sm text-muted-foreground leading-relaxed">
+            <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
               Ensemble pour une agriculture durable et une écologie prospère au Sénégal.
             </p>
             <div className="flex gap-3">
@@ -75,19 +73,19 @@ export function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3 text-sm text-muted-foreground group">
                 <div className="p-2 bg-primary/10 rounded-lg group-hover:scale-110 transition-transform duration-300">
-                  <MapPin className="h-5 w-5 text-primary flex-shrink-0" />
+                  <MapPin className="h-5 w-5 text-primary shrink-0" />
                 </div>
                 <span className="pt-2">Dakar, Sénégal</span>
               </li>
               <li className="flex items-center gap-3 text-sm text-muted-foreground group">
                 <div className="p-2 bg-primary/10 rounded-lg group-hover:scale-110 transition-transform duration-300">
-                  <Phone className="h-5 w-5 text-primary flex-shrink-0" />
+                  <Phone className="h-5 w-5 text-primary shrink-0" />
                 </div>
                 <span>+221 XX XXX XX XX</span>
               </li>
               <li className="flex items-center gap-3 text-sm text-muted-foreground group">
                 <div className="p-2 bg-primary/10 rounded-lg group-hover:scale-110 transition-transform duration-300">
-                  <Mail className="h-5 w-5 text-primary flex-shrink-0" />
+                  <Mail className="h-5 w-5 text-primary shrink-0" />
                 </div>
                 <span>contact@agrowomanecology.sn</span>
               </li>

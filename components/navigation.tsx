@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import { Menu, X, Leaf } from "@/components/icons"
+import { Menu, X } from "@/components/icons"
+import { Logo } from "@/components/logo"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
@@ -31,19 +32,15 @@ export function Navigation() {
     <nav
       className={cn(
         "fixed top-0 left-0 right-0 z-50 transition-all duration-500",
-        isScrolled ? "bg-background/95 backdrop-blur-md shadow-lg border-b border-border" : "bg-transparent",
+        isScrolled
+          ? "supports-backdrop-filter:bg-background/30 bg-background/60 backdrop-blur-lg shadow-lg border-b border-border"
+          : "supports-backdrop-filter:bg-background/40 bg-background/70 backdrop-blur-sm border-b border-transparent",
       )}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 group transition-transform duration-300 hover:scale-105">
-            <div className="relative">
-              <Leaf className="h-8 w-8 text-primary transition-all duration-300 group-hover:rotate-12" />
-              <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full scale-0 group-hover:scale-150 transition-transform duration-500" />
-            </div>
-            <span className="text-xl font-serif font-bold text-foreground">AgroWomanEcology</span>
-          </Link>
+          <Logo priority className="rounded-md" />
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
@@ -75,7 +72,7 @@ export function Navigation() {
             >
               <Link href="/contact">
                 <span className="relative z-10">Nous Contacter</span>
-                <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="absolute inset-0 bg-linear-to-r from-primary to-secondary opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               </Link>
             </Button>
           </div>
@@ -98,7 +95,7 @@ export function Navigation() {
           isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0",
         )}
       >
-        <div className="px-4 py-6 space-y-3 bg-background/95 backdrop-blur-md border-t border-border">
+        <div className="px-4 py-6 space-y-3 supports-backdrop-filter:bg-background/70 bg-background/90 backdrop-blur-md border-t border-border">
           {navItems.map((item, index) => (
             <Link
               key={item.href}

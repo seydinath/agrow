@@ -8,6 +8,9 @@ import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import { MapPin, Phone, Mail, Clock, Leaf } from "@/components/icons"
 import { useEffect, useState } from "react"
+import emailjs from "@emailjs/browser"
+import { useToast } from "@/hooks/use-toast"
+import { PageContainer } from "@/components/ui/page-container"
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -16,6 +19,8 @@ export default function ContactPage() {
     phone: "",
     message: "",
   })
+  const [isSending, setIsSending] = useState(false)
+  const { toast } = useToast()
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -35,10 +40,48 @@ export default function ContactPage() {
     return () => observer.disconnect()
   }, [])
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission
-    console.log("Form submitted:", formData)
+    if (!formData.name || !formData.email || !formData.message) {
+      toast({ title: "Champs requis manquants", description: "Veuillez remplir les champs obligatoires.", variant: "destructive" })
+      return
+    }
+    setIsSending(true)
+    try {
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || process.env.EMAILJS_SERVICE_ID
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || process.env.EMAILJS_TEMPLATE_ID
+      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY
+
+      if (!serviceId || !templateId || !publicKey) {
+        throw new Error("EmailJS configuration manquante. Vérifiez votre .env.local")
+      }
+
+      const params = {
+        from_name: formData.name,
+        from_email: formData.email,
+        phone: formData.phone || "N/A",
+        message: formData.message,
+        to_name: "Equipe AgroWomanEcology",
+        site_origin: typeof window !== "undefined" ? window.location.origin : "",
+      }
+
+      await emailjs.send(serviceId, templateId, params, { publicKey })
+
+      toast({
+        title: "Message envoyé",
+        description: "Votre message a été transmis. Nous vous répondrons rapidement.",
+      })
+      setFormData({ name: "", email: "", phone: "", message: "" })
+    } catch (err: any) {
+      console.error(err)
+      toast({
+        title: "Échec de l'envoi",
+        description: err?.message || "Une erreur est survenue.",
+        variant: "destructive",
+      })
+    } finally {
+      setIsSending(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -49,24 +92,23 @@ export default function ContactPage() {
   }
 
   return (
-    <div className="pt-32 pb-20">
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+    <PageContainer>
         {/* Hero */}
-        <div className="max-w-4xl mx-auto text-center mb-20 fade-in-element">
+        <div className="max-w-4xl mx-auto text-center mb-16 sm:mb-20 fade-in-element">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6">
             <Leaf className="h-4 w-4" />
             <span>Contactez-nous</span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-serif font-bold text-foreground mb-6 text-balance">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-bold text-foreground mb-6 text-balance">
             Parlons de Votre <span className="text-primary">Projet</span>
           </h1>
-          <p className="text-xl text-muted-foreground leading-relaxed text-pretty">
+          <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed text-pretty max-w-prose mx-auto">
             Notre équipe est à votre écoute pour répondre à toutes vos questions et vous accompagner dans votre démarche
             vers une agriculture durable.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
           {/* Contact Info */}
           <div className="lg:col-span-1 space-y-6">
             {[
@@ -100,8 +142,8 @@ export default function ContactPage() {
                 className="fade-in-element group border-2 hover:border-primary transition-all duration-500 hover:shadow-xl"
                 style={{ animationDelay: `${index * 50}ms` }}
               >
-                <CardContent className="p-6 flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                <CardContent className="p-5 sm:p-6 flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-300">
                     <item.icon className={`h-6 w-6 ${item.color}`} />
                   </div>
                   <div>
@@ -119,9 +161,9 @@ export default function ContactPage() {
               className="fade-in-element border-2 hover:border-primary/50 transition-all duration-500"
               style={{ animationDelay: "200ms" }}
             >
-              <CardContent className="p-8">
+              <CardContent className="p-6 sm:p-8">
                 <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid md:grid-cols-2 gap-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="space-y-2">
                       <label htmlFor="name" className="text-sm font-medium text-foreground">
                         Nom complet *
@@ -188,10 +230,11 @@ export default function ContactPage() {
                   <Button
                     type="submit"
                     size="lg"
-                    className="w-full group bg-primary hover:bg-primary/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
+                    disabled={isSending}
+                    className="w-full group bg-primary hover:bg-primary/90 disabled:opacity-60 disabled:pointer-events-none text-primary-foreground shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-[1.02]"
                   >
                     <span className="flex items-center justify-center gap-2">
-                      Envoyer le message
+                      {isSending ? "Envoi en cours..." : "Envoyer le message"}
                       <Mail className="h-5 w-5 group-hover:translate-x-1 transition-transform duration-300" />
                     </span>
                   </Button>
@@ -203,15 +246,14 @@ export default function ContactPage() {
 
         {/* Map Placeholder */}
         <Card className="mt-12 fade-in-element border-2 overflow-hidden" style={{ animationDelay: "300ms" }}>
-          <div className="h-96 bg-gradient-to-br from-primary/10 to-secondary/10 flex items-center justify-center">
+          <div className="h-96 bg-linear-to-br from-primary/10 to-secondary/10 flex items-center justify-center">
             <div className="text-center space-y-4">
               <MapPin className="h-16 w-16 text-primary mx-auto animate-float" />
-              <p className="text-xl font-semibold text-foreground">Carte de localisation</p>
+              <p className="text-lg sm:text-xl font-semibold text-foreground">Carte de localisation</p>
               <p className="text-muted-foreground">Dakar, Sénégal</p>
             </div>
           </div>
         </Card>
-      </div>
-    </div>
+    </PageContainer>
   )
 }

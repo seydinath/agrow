@@ -106,29 +106,29 @@ export default function ServicesPage() {
   return (
     <PageContainer>
         {/* Hero */}
-        <div className="max-w-4xl mx-auto text-center mb-20 fade-in-element">
+        <div className="max-w-4xl mx-auto text-center mb-16 sm:mb-20 fade-in-element">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium mb-6">
             <Leaf className="h-4 w-4" />
             <span>Nos Services</span>
           </div>
-          <h1 className="text-5xl md:text-6xl font-serif font-bold text-foreground mb-6 text-balance">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif font-bold text-foreground mb-6 text-balance">
             Des Solutions <span className="text-primary">Complètes</span> pour Votre Réussite
           </h1>
-          <p className="text-xl text-muted-foreground leading-relaxed text-pretty">
+          <p className="text-lg sm:text-xl text-muted-foreground leading-relaxed text-pretty max-w-prose mx-auto">
             Découvrez notre gamme de services conçus pour accompagner votre transition vers une agriculture durable et
             rentable au Sénégal.
           </p>
         </div>
 
         {/* Services Grid */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-20">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-16 lg:mb-20">
           {services.map((service, index) => (
             <Card
               key={index}
               className="fade-in-element group border-2 hover:border-primary transition-all duration-500 hover:shadow-2xl hover:-translate-y-2"
               style={{ animationDelay: `${index * 50}ms` }}
             >
-              <CardContent className="p-8 space-y-6">
+              <CardContent className="p-5 sm:p-6 md:p-8 space-y-6">
                 <div className="relative">
                   <div
                     className={`w-16 h-16 rounded-xl ${service.bgColor} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}
@@ -172,13 +172,13 @@ export default function ServicesPage() {
         </div>
 
         {/* CTA */}
-        <Card className="fade-in-element border-2 border-primary/20 bg-gradient-to-br from-primary/5 to-secondary/5">
-          <CardContent className="p-12 text-center space-y-6">
+        <Card className="fade-in-element border-2 border-primary/20 bg-linear-to-br from-primary/5 to-secondary/5">
+          <CardContent className="p-8 sm:p-12 text-center space-y-6">
             <Leaf className="h-16 w-16 text-primary mx-auto animate-float" />
-            <h2 className="text-3xl md:text-4xl font-serif font-bold text-foreground">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-foreground">
               Besoin d'un service personnalisé ?
             </h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+            <p className="text-lg sm:text-xl text-muted-foreground max-w-prose mx-auto">
               Contactez-nous pour discuter de vos besoins spécifiques et découvrir comment nous pouvons vous aider.
             </p>
             <Button
