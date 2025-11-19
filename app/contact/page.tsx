@@ -69,29 +69,23 @@ export default function ContactPage() {
         )
       }
 
-      // Utiliser une adresse d'expéditeur autorisée (domaine vérifié) et mettre l'utilisateur en reply_to.
       const params: Record<string, any> = {
         from_name: formData.name,
-        from_email: recipientEmail, // adresse vérifiée du compte/service pour réduire les rejets SPF/DMARC
-        reply_to: formData.email, // permet de répondre directement au visiteur
-        user_email: formData.email, // si le template attend l'email original
+        from_email: formData.email,
+        reply_to: formData.email,
         phone: formData.phone || "N/A",
         message: formData.message,
         to_name: "Equipe AgroWomanEcology",
         site_origin: typeof window !== "undefined" ? window.location.origin : "",
         to_email: recipientEmail,
-        timestamp: new Date().toISOString(),
       }
 
-      const result = await emailjs.send(serviceId, templateId, params, { publicKey })
-      if (result.status !== 200) {
-        throw new Error(`EmailJS retour inattendu: status ${result.status}`)
-      }
+      await emailjs.send(serviceId, templateId, params, { publicKey })
+
       toast({
         title: "Message envoyé",
-        description: "Votre message a été transmis. Vérifiez votre boîte si vous avez demandé une copie.",
+        description: "Votre message a été transmis. Nous vous répondrons rapidement.",
       })
-      console.debug("EmailJS send OK", { status: result.status, text: result.text })
       setFormData({ name: "", email: "", phone: "", message: "" })
     } catch (err: any) {
       console.error(err)
